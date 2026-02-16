@@ -21,6 +21,8 @@ slots:
     mappings: [{ type: from_llm }]
 
 responses:
+  utter_free_chitchat_response:
+    - text: "Hi there! 😊 How can I help you today?"
   utter_ask_location:
     - text: "Which city would you like to stay in?"
   utter_ask_check_in:
