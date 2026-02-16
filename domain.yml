@@ -16,6 +16,9 @@ slots:
   num_rooms:
     type: float
     mappings: [{ type: from_llm }]
+  confirm_booking:
+    type: bool
+    mappings: [{ type: from_llm }]
 
 responses:
   utter_ask_location:
@@ -33,4 +36,8 @@ responses:
   utter_too_many_rooms:
     - text: "We have a limit of 10 rooms per booking. How many rooms would you like?"
   utter_booking_summary:
-    - text: "Perfect. I'm looking for {num_rooms} rooms in {location} for {num_guests} guests from {check_in} to {check_out}."
+    - text: "Perfect. I'm booking {num_rooms} rooms in {location} for {num_guests} guests from {check_in} to {check_out}."
+  utter_ask_confirm_booking:
+    - text: "Does everything look correct, or would you like to change something?"
+  utter_ask_for_changes:
+    - text: "No problem, I've updated that for you."

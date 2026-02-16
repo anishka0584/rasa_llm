@@ -8,23 +8,26 @@ flows:
       - collect: check_out
       - collect: num_guests
         id: step_num_guests
+      - collect: num_rooms
+        id: step_num_rooms
+      
+      # The Gatekeeper: This step forces the bot to evaluate the slots
+      - noop: true 
         next:
           - if: "slots.num_guests >= 25"
             then:
               - action: utter_too_many_guests
               - set_slots:
-                  - num_guests: null  # Added dash here for list format
+                  - num_guests: null
                 next: step_num_guests
-          - else: step_num_rooms
-      - collect: num_rooms
-        id: step_num_rooms
-        next:
           - if: "slots.num_rooms >= 10"
             then:
               - action: utter_too_many_rooms
               - set_slots:
-                  - num_rooms: null   # Added dash here for list format
+                  - num_rooms: null
                 next: step_num_rooms
-          - else: step_final_summary
+          - else: step_show_summary
+
       - action: utter_booking_summary
-        id: step_final_summary
+        id: step_show_summary
+      - collect: confirm_booking
