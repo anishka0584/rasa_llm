@@ -1,45 +1,36 @@
 version: "3.1"
 
 slots:
-  recipient:
+  location:
     type: text
-    mappings:
-      - type: from_llm
-  amount:
+    mappings: [{ type: from_llm }]
+  check_in:
+    type: text
+    mappings: [{ type: from_llm }]
+  check_out:
+    type: text
+    mappings: [{ type: from_llm }]
+  num_guests:
     type: float
-    mappings:
-      - type: from_llm
-  final_conformation:
-    type: bool
-    mappings:
-      - type: from_llm
+    mappings: [{ type: from_llm }]
+  num_rooms:
+    type: float
+    mappings: [{ type: from_llm }]
 
 responses:
-  utter_ask_recipient:
-    - text: "Who would you like to send money to?"
-
-  utter_ask_amount:
-    - text: "How much money would you like to send?"
-
-  utter_transfer_complete:
-    - text: "All done. {amount} has been sent to {recipient}."
-  
-  utter_ask_final_conformation:
-    - text: "Please confirm: you want to transfer {amount} to {recipient}"
-
-  utter_transfer_cancelled:
-    - text: "Your transfer has been cancelled."
-
-  utter_free_chitchat_response:
-    - text: "placeholder"
-      metadata:
-        rephrase: True
-        rephrase_prompt: |
-          The following is a conversation with an AI assistant built with Rasa.
-          The assistant can help the user transfer money.
-          The assistant is helpful, creative, clever, and very friendly.
-          The user is making small talk, and the assistant should respond, keeping things light.
-          Context / previous conversation with the user:
-          {{history}}
-          {{current_input}}
-          Suggested AI Response:
+  utter_ask_location:
+    - text: "Which city would you like to stay in?"
+  utter_ask_check_in:
+    - text: "What is your check-in date?"
+  utter_ask_check_out:
+    - text: "And when will you be checking out?"
+  utter_ask_num_guests:
+    - text: "How many guests will be staying?"
+  utter_ask_num_rooms:
+    - text: "How many rooms do you need?"
+  utter_too_many_guests:
+    - text: "I'm sorry, we can only accommodate groups of less than 25. Please enter a smaller number."
+  utter_too_many_rooms:
+    - text: "We have a limit of 10 rooms per booking. How many rooms would you like?"
+  utter_booking_summary:
+    - text: "Perfect. I'm looking for {num_rooms} rooms in {location} for {num_guests} guests from {check_in} to {check_out}."

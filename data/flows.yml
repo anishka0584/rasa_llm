@@ -1,17 +1,30 @@
+version: "3.1"
 flows:
-  transfer_money:
-    description: Help users send money to friends and family.
+  book_hotel:
+    description: "Help the user book a hotel room"
     steps:
-      - collect: recipient
-      - collect: amount
-        description: the number of US dollars to send
-      - collect: final_conformation
-        ask_before_filling: true
-        next: 
-        - if: not slots.final_conformation
-          then:
-            - action: utter_transfer_cancelled
-              next: END
-        - else: transfer_successful
-      - action: utter_transfer_complete
-        id: transfer_successful
+      - collect: location
+      - collect: check_in
+      - collect: check_out
+      - collect: num_guests
+        id: step_num_guests
+        next:
+          - if: "slots.num_guests >= 25"
+            then:
+              - action: utter_too_many_guests
+              - set_slots:
+                  - num_guests: null  # Added dash here for list format
+                next: step_num_guests
+          - else: step_num_rooms
+      - collect: num_rooms
+        id: step_num_rooms
+        next:
+          - if: "slots.num_rooms >= 10"
+            then:
+              - action: utter_too_many_rooms
+              - set_slots:
+                  - num_rooms: null   # Added dash here for list format
+                next: step_num_rooms
+          - else: step_final_summary
+      - action: utter_booking_summary
+        id: step_final_summary
