@@ -8,26 +8,26 @@ flows:
       - collect: check_out
       - collect: num_guests
         id: step_num_guests
+        rejections:
+          - if: "slots.num_guests >= 25"
+            utter: utter_too_many_guests
       - collect: num_rooms
         id: step_num_rooms
-      
-      # The Gatekeeper: This step forces the bot to evaluate the slots
-      - noop: true 
-        next:
-          - if: "slots.num_guests >= 25"
-            then:
-              - action: utter_too_many_guests
-              - set_slots:
-                  - num_guests: null
-                next: step_num_guests
+        rejections:
           - if: "slots.num_rooms >= 10"
-            then:
-              - action: utter_too_many_rooms
-              - set_slots:
-                  - num_rooms: null
-                next: step_num_rooms
-          - else: step_show_summary
-
+            utter: utter_too_many_rooms
+      
+      # --- NEW LOGIC STARTS HERE ---
       - action: utter_booking_summary
         id: step_show_summary
+
       - collect: confirm_booking
+        description: "Ask the user if the details are correct"
+        next:
+          - if: "not slots.confirm_booking"
+            then:
+              - action: utter_ask_for_changes
+              - set_slots:
+                  - confirm_booking: null # Reset so they can confirm again later
+                next: step_show_summary  # Jumps back to redisplay the updated info
+          - else: END # Continues to final action or finish
