@@ -17,7 +17,7 @@ flows:
           - if: "slots.num_rooms >= 10"
             utter: utter_too_many_rooms
       
-      # --- NEW LOGIC STARTS HERE ---
+      - action: action_format_numbers
       - action: utter_booking_summary
         id: step_show_summary
 

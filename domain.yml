@@ -41,3 +41,6 @@ responses:
     - text: "Does everything look correct, or would you like to change something?"
   utter_ask_for_changes:
     - text: "No problem, I've updated that for you."
+
+actions:
+  - action_format_numbers
