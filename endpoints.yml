@@ -9,12 +9,14 @@ action_endpoint:
 
 
 # -----------------------------
-# NLG Rephrasing via LLM
+# NLG - Use static responses only (no LLM rephrasing)
+# Rephrasing with a local LLM tends to leak internal reasoning into responses.
+# Your utter_ responses in domain.yml are already clear and don't need rephrasing.
 # -----------------------------
-nlg:
-  type: rephrase
-  llm:
-    model_group: rasa_command_generation_model
+# nlg:               # <-- DISABLED: re-enable only if rephrasing is stable on your model
+#   type: rephrase
+#   llm:
+#     model_group: rasa_command_generation_model
 
 
 # -----------------------------
@@ -26,27 +28,3 @@ model_groups:
       - provider: ollama
         model: ministral-3:latest
         api_base: http://10.0.0.101:11434
-
-system_prompt: |
-  You are a slot extraction engine for a booking assistant.
-
-  IMPORTANT:
-  Only extract the slot you are asked for.
-  Never guess other slots.
-  Never fill slots that were not requested.
-
-  STRICT RULES:
-  - Output ONLY the value.
-  - No explanations.
-  - No comments.
-  - No extra text.
-
-  FORMAT:
-  Dates → YYYY-MM-DD
-  Numbers → digits only
-  Text → plain text
-
-  If value for requested slot is missing → output:
-  unknown
-
-          

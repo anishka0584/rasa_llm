@@ -1,11 +1,18 @@
 flows:
   pattern_chitchat:
-    description: Conversation repair flow for off-topic interactions that won't disrupt the main conversation. should not respond to greetings or anything else for which there is a flow defined
+    description: "Handles off-topic questions and diversions that are not related to hotel booking. Responds politely and steers the user back to the booking flow."
     name: pattern chitchat
     steps:
       - action: utter_free_chitchat_response
+
   pattern_search:
-    description: Flow for handling knowledge-based questions
+    description: "Handles knowledge-based or factual questions the bot cannot answer, such as asking about pet policies, available locations, or amenities."
     name: pattern search
     steps:
       - action: utter_free_chitchat_response
+
+  pattern_end_of_conversation:
+    description: "Runs at the end of every conversation. Uses a custom action that returns nothing so no closing message is shown."
+    name: pattern end of conversation
+    steps:
+      - action: action_session_end

@@ -11,38 +11,54 @@ slots:
     type: text
     mappings: [{ type: from_llm }]
   num_guests:
-    type: float
+    type: text
     mappings: [{ type: from_llm }]
   num_rooms:
-    type: float
+    type: text
     mappings: [{ type: from_llm }]
   confirm_booking:
     type: bool
     mappings: [{ type: from_llm }]
 
 responses:
+  utter_greet:
+    - text: "Hello! 👋 Welcome to the Hotel Booking Assistant. I can help you find and book a hotel room. Just say 'book a hotel' to get started!"
+  utter_goodbye:
+    - text: "Goodbye! 👋 Have a wonderful trip — feel free to come back anytime you need to book a hotel!"
   utter_free_chitchat_response:
-    - text: "Hi there! 😊 How can I help you today?"
+    - text: "I'm only able to help with hotel bookings! I'd be happy to get your booking started — where would you like to stay?"
   utter_ask_location:
     - text: "Which city would you like to stay in?"
   utter_ask_check_in:
-    - text: "What is your check-in date?"
+    - text: "What is your check-in date? (DD/MM/YYYY)"
   utter_ask_check_out:
-    - text: "And when will you be checking out?"
+    - text: "What is your check-out date? (DD/MM/YYYY)"
   utter_ask_num_guests:
     - text: "How many guests will be staying?"
   utter_ask_num_rooms:
     - text: "How many rooms do you need?"
   utter_too_many_guests:
-    - text: "I'm sorry, we can only accommodate groups of less than 25. Please enter a smaller number."
+    - text: "I'm sorry, we can only accommodate up to 24 guests per booking. Please enter a smaller number."
   utter_too_many_rooms:
-    - text: "We have a limit of 10 rooms per booking. How many rooms would you like?"
+    - text: "We have a maximum of 10 rooms per booking. How many rooms would you like?"
   utter_booking_summary:
-    - text: "Perfect. I'm booking {num_rooms} rooms in {location} for {num_guests} guests from {check_in} to {check_out}."
+    - text: "Here is your booking summary:\n\n📍 Location:   {location}\n📅 Check-in:   {check_in}\n📅 Check-out:  {check_out}\n👥 Guests:     {num_guests}\n🛏️  Rooms:      {num_rooms}"
   utter_ask_confirm_booking:
-    - text: "Does everything look correct, or would you like to change something?"
+    - text: "Does everything look correct? Reply yes to confirm, or tell me what to change (e.g. 'change check-in to 10th Jan')."
   utter_ask_for_changes:
-    - text: "No problem, I've updated that for you."
+    - text: "Sure! Just tell me what you'd like to change, for example: 'change check-in to 10th Jan' or 'update location to Mumbai'."
+  utter_invalid_value_for_slot:
+    - text: "Sorry, I didn't catch that. Could you please try again?"
+  utter_ask_rephrase:
+    - text: "Sorry, I didn't understand. Could you rephrase that?"
+  utter_ask_continue_conversation:
+    - text: ""
+  utter_booking_confirmed:
+    - text: "Your booking is confirmed! 🎉 We look forward to welcoming you. Have a great stay!"
 
 actions:
+  - validate_num_guests
+  - validate_num_rooms
+  - validate_confirm_booking
   - action_format_numbers
+  - action_session_end

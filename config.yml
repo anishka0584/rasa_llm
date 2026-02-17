@@ -7,5 +7,6 @@ pipeline:
     model_group: rasa_command_generation_model
   flow_retrieval:
     active: false
+
 policies:
 - name: FlowPolicy
