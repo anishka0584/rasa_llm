@@ -1,30 +1,18 @@
-# This file contains the different endpoints your bot can use.
-
-
-# -----------------------------
 # Custom Actions Server
-# -----------------------------
 action_endpoint:
   url: "http://localhost:5055/webhook"
 
-
-# -----------------------------
-# NLG - Use static responses only (no LLM rephrasing)
-# Rephrasing with a local LLM tends to leak internal reasoning into responses.
-# Your utter_ responses in domain.yml are already clear and don't need rephrasing.
-# -----------------------------
-# nlg:               # <-- DISABLED: re-enable only if rephrasing is stable on your model
+# NLG - static responses only, no LLM rephrasing
+# nlg:
 #   type: rephrase
 #   llm:
 #     model_group: rasa_command_generation_model
 
-
-# -----------------------------
 # LLM Model Configuration
-# -----------------------------
 model_groups:
   - id: rasa_command_generation_model
     models:
       - provider: ollama
         model: ministral-3:latest
         api_base: http://10.0.0.101:11434
+        temperature: 0.0

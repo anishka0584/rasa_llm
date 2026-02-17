@@ -7,6 +7,8 @@ pipeline:
     model_group: rasa_command_generation_model
   flow_retrieval:
     active: false
+  user_input:
+    max_characters: 420
 
 policies:
 - name: FlowPolicy

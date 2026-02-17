@@ -44,6 +44,9 @@ flows:
           The number of rooms needed. The user may say '1', 'one room', 'two rooms', '3'.
           ANY number or quantity answer is valid. Maximum is 10.
           Do NOT treat number answers as chitchat.
+          IMPORTANT: Do NOT infer or assume this value from the number of guests or any other slot.
+          Only fill this slot if the user has explicitly stated the number of rooms in their message.
+          If not explicitly stated, leave it empty so the bot can ask.
 
       - action: action_format_numbers
 
@@ -56,7 +59,7 @@ flows:
           If they say yes, correct, looks good, confirm set to true.
           If they say no, wrong, or request to change a specific detail set to false.
         next:
-          - if: "not slots.confirm_booking"
+          - if: "slots.confirm_booking != 'true'"
             then:
               - action: utter_ask_for_changes
               - set_slots:

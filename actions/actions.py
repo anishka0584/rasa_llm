@@ -107,8 +107,9 @@ class ValidateNumRooms(Action):
 
 class ValidateConfirmBooking(Action):
     """
-    Suppresses Rasa's built-in bool slot validation error for confirm_booking.
-    When the slot is null (not yet answered), return silently.
+    Normalises the confirm_booking slot to the string 'true' or 'false'.
+    Handles yes/no/true/false in any form the LLM might return.
+    Returns silently when slot is null so Rasa does not fire its built-in error.
     """
 
     def name(self) -> Text:
@@ -123,12 +124,25 @@ class ValidateConfirmBooking(Action):
 
         raw = tracker.get_slot("confirm_booking")
 
-        # Not yet answered — do nothing
+        # Not yet answered — stay silent, let Rasa ask the question
         if raw is None:
             return []
 
-        # Already a bool — pass through unchanged
-        return [SlotSet("confirm_booking", raw)]
+        yes_values = {"true", "yes", "yeah", "yep", "correct", "confirm",
+                      "confirmed", "ok", "okay", "sure", "looks good",
+                      "that's right", "thats right", "right"}
+        no_values  = {"false", "no", "nope", "nah", "wrong", "incorrect",
+                      "change", "update", "edit", "not right"}
+
+        normalised = str(raw).strip().lower()
+
+        if normalised in yes_values:
+            return [SlotSet("confirm_booking", "true")]
+        if normalised in no_values:
+            return [SlotSet("confirm_booking", "false")]
+
+        # Unrecognised — stay silent and let the flow re-ask
+        return [SlotSet("confirm_booking", None)]
 
 
 class ActionFormatNumbers(Action):

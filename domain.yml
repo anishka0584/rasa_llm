@@ -17,7 +17,7 @@ slots:
     type: text
     mappings: [{ type: from_llm }]
   confirm_booking:
-    type: bool
+    type: text
     mappings: [{ type: from_llm }]
 
 responses:
@@ -51,6 +51,16 @@ responses:
     - text: "Sorry, I didn't catch that. Could you please try again?"
   utter_ask_rephrase:
     - text: "Sorry, I didn't understand. Could you rephrase that?"
+  utter_corrected_previous_input:
+    - text: "Got it! I've updated that for you."
+  utter_flow_cancelled:
+    - text: "No problem, I've cancelled that."
+  utter_flow_completed:
+    - text: ""
+  utter_flow_completed_final:
+    - text: ""
+  utter_continue_without_further_correction:
+    - text: ""
   utter_ask_continue_conversation:
     - text: ""
   utter_booking_confirmed:
